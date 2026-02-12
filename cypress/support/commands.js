@@ -23,3 +23,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('getAuthToken', () => {
+  cy.fixture('login').then((user) => {
+    cy.request({
+      method: 'POST',
+      url: 'https://reqres.in/api/login',
+      body: user
+    }).then((response) => {
+      Cypress.env('token', response.body.token)
+    })
+  })
+})
